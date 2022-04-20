@@ -30,24 +30,16 @@ pipeline {
     post {
         failure {
           script {
-                        withCredentials([string(credentialsId: 'TelegramToken', variable: 'telegram_token'),
-                             string(credentialsId: 'TelegramChatId', variable: 'chat_id')]) {
-                                sh """
-                                curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}\n Branch: ${envBRANCH_NAME}\nBuild : fa1\nBuild_Url = ${envBUILD_URL}"
-                                """
-                        }
-                      }
+                  echo "asas"
+                  )    
         }
-        unstable {
-            }
         success {
         script {
-                        withCredentials([string(credentialsId: 'TelegramToken', variable: 'telegram_token'),
-                             string(credentialsId: 'TelegramChatId', variable: 'chat_id')]) {
-                                sh """
-                                curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}\n Branch: ${envBRANCH_NAME}\nBuild : fa2\nBuild_Url = ${envBUILD_URL}"
-                                """
-                        }
+               echo "curl -s -X POST https://api.telegram.org/bot5171552267:AAHxacJ1GOs1cWuG-uk1zlAX2i31sA_veaA/sendMessage -d chat_id=359042866 -d text='
+Project : projectname
+Branch : env
+Build  : OK
+'"
                       }
          }
     }
