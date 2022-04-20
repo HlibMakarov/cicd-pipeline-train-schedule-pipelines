@@ -27,14 +27,28 @@ pipeline {
                       }
             }
     }
-     post {
+    post {
         failure {
-           echo "hello"
+          script {
+                        withCredentials([string(credentialsId: 'TelegramToken', variable: 'telegram_token'),
+                             string(credentialsId: 'TelegramChatId', variable: 'chat_id')]) {
+                                sh """
+                                curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}\n Branch: ${envBRANCH_NAME}\nBuild : fa1\nBuild_Url = ${envBUILD_URL}"
+                                """
+                        }
+                      }
         }
         unstable {
             }
         success {
-          echo "hello2"
+        script {
+                        withCredentials([string(credentialsId: 'TelegramToken', variable: 'telegram_token'),
+                             string(credentialsId: 'TelegramChatId', variable: 'chat_id')]) {
+                                sh """
+                                curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}\n Branch: ${envBRANCH_NAME}\nBuild : fa2\nBuild_Url = ${envBUILD_URL}"
+                                """
+                        }
+                      }
          }
     }
   }
