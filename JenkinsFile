@@ -27,21 +27,5 @@ pipeline {
                       }
             }
     }
-    post {
-        failure {
-          script {
-                  echo "asas"
-                  )    
-        }
-        success {
-        script {
-               echo "curl -s -X POST https://api.telegram.org/bot5171552267:AAHxacJ1GOs1cWuG-uk1zlAX2i31sA_veaA/sendMessage -d chat_id=359042866 -d text='
-Project : projectname
-Branch : env
-Build  : OK
-'"
-                      }
-         }
-    }
   }
 }
