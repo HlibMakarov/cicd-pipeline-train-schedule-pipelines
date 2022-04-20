@@ -4,8 +4,8 @@ pipeline {
         chat_id = 'TelegramChatId'
         telegram_token = 'TelegramToken'
         projectname = "hello"
-        env.BRANCH_NAME = "master"
-        env.BUILD_URL = "http://18.234.180.15:8080/job/testbot43/job/master/6/console"
+        envBRANCH_NAME = "master"
+        envBUILD_URL = "http://18.234.180.15:8080/job/testbot43/job/master/6/console"
     }
   stages {
     stage ('Build') {
@@ -21,7 +21,7 @@ pipeline {
                         withCredentials([string(credentialsId: 'TelegramToken', variable: 'telegram_token'),
                              string(credentialsId: 'TelegramChatId', variable: 'chat_id')]) {
                                 sh """
-                                curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}Branch: ${env.BRANCH_NAME} Build : OK Build_Url = ${env.BUILD_URL}
+                                curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}Branch: ${envBRANCH_NAME} Build : OK Build_Url = ${envBUILD_URL}
                                 """
                         }
                       }
