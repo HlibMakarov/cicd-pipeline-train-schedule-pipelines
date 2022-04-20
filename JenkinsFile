@@ -2,7 +2,7 @@ pipeline {
   agent any
   environment { 
         chat_id = 'TelegramChatId'
-        telegram_token = 'TelegramToken'
+        telegram_token = 'telegram_token'
         projectname = "hello"
         envBRANCH_NAME = "master"
         envBUILD_URL = "http://18.234.180.15:8080/job/testbot43/job/master/6/console"
@@ -18,7 +18,7 @@ pipeline {
 stage('Notification') {
   steps {
     script {
-            withCredentials([string(credentialsId: 'TelegramToken', variable: 'telegram_token'),
+            withCredentials([string(credentialsId: 'telegram_token', variable: 'telegram_token'),
             string(credentialsId: 'TelegramChatId', variable: 'chat_id')]) {
               sh """
               curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}"
