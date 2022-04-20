@@ -21,7 +21,7 @@ pipeline {
                         withCredentials([string(credentialsId: 'TelegramToken', variable: 'telegram_token'),
                              string(credentialsId: 'TelegramChatId', variable: 'chat_id')]) {
                                 sh """
-                                curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}\nU+1F601\nU1F601\n#1F601;\n&#1F601;"
+                                curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}"
                                 """
                         }
                       }
