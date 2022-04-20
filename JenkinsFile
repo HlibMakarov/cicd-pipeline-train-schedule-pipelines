@@ -19,7 +19,7 @@ stage('Notification') {
             withCredentials([string(credentialsId: 'telegram_token', variable: 'telegram_token'),
             string(credentialsId: 'TelegramChatId', variable: 'chat_id')]) {
               sh """
-              curl -s -X POST https://api.telegram.org/bot${TelegramChatId}/sendMessage -d TelegramChatId=${TelegramChatId} -d text="Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}"
+              curl -s -X POST https://api.telegram.org/bot${TelegramChatId}/sendMessage -d chat_id=${TelegramChatId} -d chat_id=${TelegramChatId} -d text="Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}"
               """
             }
            }
