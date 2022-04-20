@@ -21,12 +21,21 @@ pipeline {
                         withCredentials([string(credentialsId: 'TelegramToken', variable: 'telegram_token'),
                              string(credentialsId: 'TelegramChatId', variable: 'chat_id')]) {
                                 sh """
-                                curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}\n Branch: ${envBRANCH_NAME}Build : OK Build_Url = ${envBUILD_URL}"
+                                curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}\n Branch: ${envBRANCH_NAME}\nBuild : OK\nBuild_Url = ${envBUILD_URL}"
                                 """
                         }
                       }
             }
     }
+     post {
+        failure {
+            sh 'curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}\n Branch: ${envBRANCH_NAME}\nBuild : Finish\nBuild_Url = ${envBUILD_URL}"'
+        }
+        unstable {
+            }
+        success {
+           sh 'curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}\n Branch: ${envBRANCH_NAME}\nBuild : 333\nBuild_Url = ${envBUILD_URL}"'
+        }
+    }
   }
 }
-
