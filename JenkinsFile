@@ -29,17 +29,12 @@ pipeline {
     }
      post {
         failure {
-            sh """
-            curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}\n Branch: ${envBRANCH_NAME}\nBuild : Finish\nBuild_Url = ${envBUILD_URL}"
-            """
+           echo "hello"
         }
         unstable {
             }
         success {
-           sh """
-            curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d chat_id=${chat_id} -d text="Project : ${projectname}\n Branch: ${envBRANCH_NAME}\nBuild : Finish\nBuild_Url = ${envBUILD_URL}"
-            """
-            
+          echo "hello2"
          }
     }
   }
