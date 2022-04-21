@@ -28,8 +28,9 @@ stage('Notification') {
 stage('Example') {
             steps {
                 /* CORRECT */
-                sh('curl -s -X POST https://api.telegram.org/bot5171552267:AAHxacJ1GOs1cWuG-uk1zlAX2i31sA_veaA/sendMessage?text=mytest&chat_id=359042866')
+                sh('curl -s -X POST https://api.telegram.org/bot5171552267:AAHxacJ1GOs1cWuG-uk1zlAX2i31sA_veaA/sendMessage?text="mytest&chat_id=359042866"')
             }
         }
   }
+}
 }
