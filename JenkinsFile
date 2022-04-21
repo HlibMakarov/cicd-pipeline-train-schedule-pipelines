@@ -21,10 +21,10 @@ pipeline {
             sh 'curl -s -X POST https://api.telegram.org/bot${tgtoken}/sendMessage -d chat_id=${chatid} -d text="Project :fail" '
             }
             unstable {
-            sh 'curl -s -X POST https://api.telegram.org/bot${tgtoken}/sendMessage -d chat_id={chatid} -d text="Project :unstable" '
+            sh 'curl -s -X POST https://api.telegram.org/bot${tgtoken}/sendMessage -d chat_id=${chatid} -d text="Project :unstable" '
             }
             success {
-            sh 'curl -s -X POST https://api.telegram.org/bot${tgtoken}/sendMessage -d chat_id={chatid} -d text="Project :success" '
+            sh 'curl -s -X POST https://api.telegram.org/bot${tgtoken}/sendMessage -d chat_id=${chatid} -d text="Project :success" '
            }  
         }
 }
