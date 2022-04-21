@@ -4,8 +4,8 @@ pipeline {
         projectname = "hello"
         envBRANCH_NAME = "master"
         envBUILD_URL = "http://52.201.218.9:8080/job/teste/job/master/"
-        tgtoken = 'telegram_token'
-        chatid = 'TelegramChatId'
+        tgtoken = credentials('5171552267:AAHxacJ1GOs1cWuG-uk1zlAX2i31sA_veaA')
+        chatid = credentials('359042866')
     }
   stages {
     stage ('Build') {
@@ -18,13 +18,13 @@ pipeline {
   }
   post {
             failure {
-            sh 'curl -s -X POST https://api.telegram.org/bot${tgtoken}/sendMessage -d chat_id=${chatid} -d text="Project :fail" '
+            sh 'curl -s -X POST https://api.telegram.org/bot$tgtoken/sendMessage -d chat_id=$chatid -d text="Project :fail" '
             }
             unstable {
-            sh 'curl -s -X POST https://api.telegram.org/bot${tgtoken}/sendMessage -d chat_id=${chatid} -d text="Project :unstable" '
+            sh 'curl -s -X POST https://api.telegram.org/bot$tgtoken/sendMessage -d chat_id=$chatid -d text="Project :unstable" '
             }
             success {
-            sh 'curl -s -X POST https://api.telegram.org/bot${tgtoken}/sendMessage -d chat_id=${chatid} -d text="Project :success" '
+            sh 'curl -s -X POST https://api.telegram.org/bot$tgtoken/sendMessage -d chat_id=$chatid -d text="Project :success" '
            }  
         }
 }
