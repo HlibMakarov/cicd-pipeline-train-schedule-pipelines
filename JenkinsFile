@@ -29,8 +29,8 @@ pipeline {
       steps {
          script {
            /* CORRECT */
-           sh('curl https://api.telegram.org/bot5171552267:AAHxacJ1GOs1cWuG-uk1zlAX2i31sA_veaA/sendMessage?text=mytest&chat_id=359042866')
-           }}
+           sh """(curl https://api.telegram.org/bot5171552267:AAHxacJ1GOs1cWuG-uk1zlAX2i31sA_veaA/sendMessage?text=mytest&chat_id=359042866)"""
+        }  }
        }
      }
 }
