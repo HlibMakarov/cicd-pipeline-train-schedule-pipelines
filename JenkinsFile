@@ -1,13 +1,13 @@
 pipeline {
     agent any
     environment {
-        EXAMPLE_CREDS = credentials('telegram_token')
+        creds = credentials('telegram_token')
     }
     stages {
         stage('Example') {
             steps {
                 /* CORRECT */
-                sh('curl  https://api.telegram.org/bot$EXAMPLE_CREDS_USR:$EXAMPLE_CREDS_PSW/sendMessage?text=mytest&chat_id=359042866')
+                sh("curl  https://api.telegram.org/bot$creds/sendMessage?text=mytest&chat_id=359042866")
             }
         }
     }
