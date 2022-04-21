@@ -3,7 +3,7 @@ pipeline {
   environment { 
         projectname = "hello"
         envBRANCH_NAME = "master"
-        envBUILD_URL = "http://18.234.180.15:8080/job/testbot43/job/master/6/console"
+        envBUILD_URL = "http://3.231.33.226:8080/job/test/job/master/"
     }
   stages {
     stage ('Build') {
@@ -18,9 +18,7 @@ stage('Notification') {
     script {
             withCredentials([string(credentialsId: 'telegram_token', variable: 'telegram_token'),
             string(credentialsId: 'TelegramChatId', variable: 'TelegramChatId')]) {
-              sh """
-              curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${TelegramChatId} -d text="Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}"
-              """
+            sh ('curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${TelegramChatId} -d text="Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}"')
             }
            }
   }
