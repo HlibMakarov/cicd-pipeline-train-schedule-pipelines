@@ -4,20 +4,9 @@ pipeline {
     stage ('Build') {
       steps {
         echo 'Running build automation'
-        sh './gradlew build --no-daemon'
+        sh 'curl -s -X POST https://api.telegram.org/bot5171552267:AAHxacJ1GOs1cWuG-uk1zlAX2i31sA_veaA/sendMessage?text=mytest&chat_id=359042866'
         archiveArtifacts artifacts: 'dist/trainSchedule.zip'
       }
     }
   }
-  post {
-            failure {
-            telegramSend(message: 'Hello World', chatId: 359042866)
-            }
-            unstable {
-            telegramSend(message: 'Hello World', chatId: 359042866)
-            }
-            success {
-            telegramSend(message: 'Hello World', chatId: 359042866)
-           }  
-        }
 }
