@@ -1,26 +1,23 @@
 pipeline {
-    agent any
-    environment {
-        creds = credentials('telegram_token')
+  agent any
+  stages {
+    stage ('Build') {
+      steps {
+        echo 'Running build automation'
+        sh './gradlew build --no-daemon'
+        archiveArtifacts artifacts: 'dist/trainSchedule.zip'
+      }
     }
-    stages {
-        stage('Example') {
-            steps {
-                /* CORRECT */
-                sh("curl  https://api.telegram.org/bot$creds/sendMessage?text=mytest&chat_id=359042866")
-            }
-        }
-    }
-    post {
+  }
+  post {
             failure {
             telegramSend 'Hello World'
-
-}
+            }
             unstable {
             telegramSend 'Hello World'
-                }
+            }
             success {
             telegramSend 'Hello World'
-          }  
+           }  
         }
 }
