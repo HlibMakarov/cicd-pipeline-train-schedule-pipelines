@@ -17,7 +17,7 @@ pipeline {
     }
    stage('Notification') {
      steps {
-             sh 'curl -s -X POST https://api.telegram.org/bot'telegram_token'/sendMessage -d chat_id='TelegramChatId' -d text="Project :"'
+             sh "curl -s -X POST https://api.telegram.org/bot${tgtoken}/sendMessage -d chat_id=${chatid} -d text='Project :'"
            }
    }
   }
