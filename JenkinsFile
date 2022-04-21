@@ -13,23 +13,24 @@ pipeline {
         archiveArtifacts artifacts: 'dist/trainSchedule.zip'
       }
     }
-stage('Notification') {
-  steps {
-    script {
-            withCredentials([string(credentialsId: 'telegram_token', variable: 'telegram_token'),
-            string(credentialsId: 'TelegramChatId', variable: 'TelegramChatId')]) {
-              sh """
-              (curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${TelegramChatId} -d text="Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}")
-              """
-            }
-           }
-  }
-}
-stage('Example') {
-            steps {
-                /* CORRECT */
-                sh('curl https://api.telegram.org/bot5171552267:AAHxacJ1GOs1cWuG-uk1zlAX2i31sA_veaA/sendMessage?text=mytest&chat_id=359042866')
-            }
-        }
-  }
+   stage('Notification') {
+     steps {
+       script {
+               withCredentials([string(credentialsId: 'telegram_token', variable: 'telegram_token'),
+               string(credentialsId: 'TelegramChatId', variable: 'TelegramChatId')]) {
+                 sh """
+                 (curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${TelegramChatId} -d text="Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}")
+                 """
+               }
+              }
+     }
+   }
+   stage('Example') {
+      steps {
+         script {
+           /* CORRECT */
+           sh('curl https://api.telegram.org/bot5171552267:AAHxacJ1GOs1cWuG-uk1zlAX2i31sA_veaA/sendMessage?text=mytest&chat_id=359042866')
+           }}
+       }
+     }
 }
