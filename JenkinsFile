@@ -1,30 +1,33 @@
 pipeline {
-  agent any
-    environment { 
-        projectname = "hello"
-        envBRANCH_NAME = "master"
-        envBUILD_URL = "http://52.201.218.9:8080/job/teste/job/master/"
-        //tgtoken = 'tgtoken2'
-       // chatid = 'tgid'
+    agent {
+        label 'master'
     }
-  stages {
-    stage ('Build') {
-      steps {
-        echo 'Running build automation'
-        sh './gradlew build --no-daemon'
-        archiveArtifacts artifacts: 'dist/trainSchedule.zip'
-      }
+    
+    environment {
+        telegramBotId = "5171552267:AAHxacJ1GOs1cWuG-uk1zlAX2i31sA_veaA"
+        telegramChatId = "359042866"
     }
-  }
-  post {
-            failure {
-            sh "curl -s -X POST https://api.telegram.org/bot'tgtoken2'/sendMessage -d chat_id='tgid' -d text='Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}' "
+    
+    stages {
+        stage('Init') {
+            steps {
+                script{
+                    telegramtext = "line1%0Aline2%0A${env.BUILD_URL}"
+                    telegramrequetsurl = "https://api.telegram.org/bot${telegramBotId}/sendMessage?text=${telegramtext}&chat_id=${telegramChatId}"
+                }
             }
-            unstable {
-            sh "curl -s -X POST https://api.telegram.org/bot'tgtoken2'/sendMessage -d chat_id='tgid' -d text='Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}' "
-            }
-            success {
-            sh "curl -s -X POST https://api.telegram.org/bot'tgtoken2'/sendMessage -d chat_id='tgid' -d text='Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}'"
-           }  
+        }   
+    }
+    
+    post {
+        failure {
+            httpRequest ignoreSslErrors: true, responseHandle: 'NONE', url: "${telegramrequetsurl}", wrapAsMultipart: false            
         }
+        unstable {
+            httpRequest ignoreSslErrors: true, responseHandle: 'NONE', url: "${telegramrequetsurl}", wrapAsMultipart: false
+        }
+        success {   
+            httpRequest ignoreSslErrors: true, responseHandle: 'NONE', url: "${telegramrequetsurl}", wrapAsMultipart: false
+        }
+    }
 }
