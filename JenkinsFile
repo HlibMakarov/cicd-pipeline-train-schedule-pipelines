@@ -18,13 +18,13 @@ pipeline {
   }
   post {
             failure {
-            sh "curl -s -X POST https://api.telegram.org/bot${tgtoken2}/sendMessage -d chat_id=${tgid} -d text='Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}' "
+            sh "curl -s -X POST https://api.telegram.org/bot'tgtoken2'/sendMessage -d chat_id='tgid' -d text='Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}' "
             }
             unstable {
-            sh "curl -s -X POST https://api.telegram.org/bot${tgtoken2}/sendMessage -d chat_id=${tgid} -d text='Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}' "
+            sh "curl -s -X POST https://api.telegram.org/bot'tgtoken2'/sendMessage -d chat_id='tgid' -d text='Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}' "
             }
             success {
-            sh "curl -s -X POST https://api.telegram.org/bot${tgtoken2}/sendMessage -d chat_id=${tgid} -d text='Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}'"
+            sh "curl -s -X POST https://api.telegram.org/bot'tgtoken2'/sendMessage -d chat_id='tgid' -d text='Project : ${projectname}\nBranch: ${envBRANCH_NAME}\nBuild : Finished \nBuild_Url = ${envBUILD_URL}'"
            }  
         }
 }
