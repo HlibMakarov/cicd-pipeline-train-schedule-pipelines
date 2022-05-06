@@ -1,31 +1,34 @@
 pipeline {
-  agent any
-  environment { 
-        chat_id = 'TelegramChatId'
-        telegram_token = 'TelegramToken'
+    agent {
+        label 'master'
     }
-  stages {
-    stage ('Build') {
-      steps {
-        echo 'Running build automation'
-        sh './gradlew build --no-daemon'
-        archiveArtifacts artifacts: 'dist/trainSchedule.zip'
-      }
+
+	environment { 
+        operationname = "CI"
+        pipelinename = "zEncoder-"
+        EMAILS = credentials('emailsTeamB')
+        TG_CHAT_ID = credentials('tgchatid')
+        TG_TOKEN = credentials('tgtoken')
+        telegramstring = "Project%20:%20${pipelinename}${operationname}%0ABranch%20:%20${env.BRANCH_NAME}%0ABuild_Url%20:%20${env.BUILD_URL}%0ACommit%20:%20${GIT_COMMIT}%20%0AGIT_URL%20:%20${GIT_URL}%0APreviousSuccessCommit%20:%20${GIT_PREVIOUS_SUCCESSFUL_COMMIT}%20%0ABuild%20:%20" 
     }
-    stage('Notification') {
+	
+    stages {
+        stage('init') {
             steps {
-               script {
-                        withCredentials([string(credentialsId: 'TelegramToken', variable: 'telegram_token'),
-                             string(credentialsId: 'TelegramChatId', variable: 'chat_id')]) {
-                                sh """
-                                          curl -s -X POST https://api.telegram.org/bot${telegram_token}/sendMessage -d chat_id=${chat_id} -d parse_mode="HTML" -d text="<b>Project</b> : POC \
-                                              <b>Branch</b>: master \
-                                               <b>Build </b> : OK \
-                                               <b>Test suite</b> = Passed"
-                                """
-                        }
-                      }
+                echo "BUILD_ID: ${env.BUILD_ID}"
             }
+        }
     }
-  }
+	
+    post {
+        failure {
+            httpRequest ignoreSslErrors: true, responseHandle: 'NONE', url: "https://api.telegram.org/bot${TG_TOKEN}/sendMessage?text=${telegramstring}Failure&chat_id=${TG_CHAT_ID}", wrapAsMultipart: false
+        }
+        unstable {
+            httpRequest ignoreSslErrors: true, responseHandle: 'NONE', url: "https://api.telegram.org/bot${TG_TOKEN}/sendMessage?text=${telegramstring}Unstage&chat_id=${TG_CHAT_ID}", wrapAsMultipart: false
+        }
+        success {
+            httpRequest ignoreSslErrors: true, responseHandle: 'NONE', url: "https://api.telegram.org/bot${TG_TOKEN}/sendMessage?text=${telegramstring}Success&chat_id=${TG_CHAT_ID}", wrapAsMultipart: false
+        }
+    }
 }
