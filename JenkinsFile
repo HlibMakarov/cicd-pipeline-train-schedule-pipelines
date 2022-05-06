@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('init') {
             steps {
-                echo "BUILD_ID: ${env.BUILD_ID}"
+                echo "wBUILD_ID: ${env.BUILD_ID}"
             }
         }
     }
