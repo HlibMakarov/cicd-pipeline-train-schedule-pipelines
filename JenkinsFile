@@ -6,8 +6,7 @@ pipeline {
 
 	environment { 
         operationname = "CI"
-        pipelinename = "zEncoder-"
-        EMAILS = credentials('emailsTeamB')
+        pipelinename = "TestHlib-"
         TG_CHAT_ID = credentials('tgchatid')
         TG_TOKEN = credentials('tgtoken')
         telegramstring = "Project%20:%20${pipelinename}${operationname}%0ABranch%20:%20${env.BRANCH_NAME}%0ABuild_Url%20:%20${env.BUILD_URL}%0ACommit%20:%20${GIT_COMMIT}%20%0AGIT_URL%20:%20${GIT_URL}%0APreviousSuccessCommit%20:%20${GIT_PREVIOUS_SUCCESSFUL_COMMIT}%20%0ABuild%20:%20" 
